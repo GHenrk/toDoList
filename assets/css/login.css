@@ -1,0 +1,64 @@
+body {
+    background-color: var(--cor-bg-login);
+}
+
+.secaoLogin {
+    background-color: var(--cor-bg-login);
+    width:25vw;
+    padding:3em 0;
+    margin: 0 auto;
+    margin-top: 10vw;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow:  26px 26px 37px #14182f,
+             -26px -26px 37px #282e5b;
+}
+
+.divLogin {
+    padding: 1em;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4em;
+}
+
+
+.labelLogin {
+    font-size: 1.2em;
+    
+}
+.elementoInput {
+    padding:0.4em;
+}
+.secaoBotoes {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    gap: 0.5em;
+}
+.botao__login {
+    width:8em;
+    
+    margin-bottom: 0.5em;
+    padding:0.4em 0 0.4em 0;
+    background-color: var(--cor-btn);
+    border-radius: 1em;
+    color: white;
+    transition: 0.5s;
+    border-radius: 27px;
+    box-shadow: 0px 0px 10px black;
+    box-sizing: border-box;
+
+}
+
+
+
+.botao__login:hover {
+    transform: scale(1.2);
+    color: var(--cor-btn);
+    background-color: white;
+    cursor: pointer;
+}
+
