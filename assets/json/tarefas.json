@@ -1,0 +1,22 @@
+[
+  {
+    "txtTarefa": "Exibir a lista de tarefas",
+    "dtCriacao": "20/08",
+    "status": 1
+  },
+  {
+    "txtTarefa": "Editar e Excluir Tarefas",
+    "dtCriacao": "20/08",
+    "status": 1
+  },
+  {
+    "txtTarefa": "Checar Tarefas",
+    "dtCriacao": "20/08",
+    "status": 1
+  },
+  {
+    "txtTarefa": "Estilizar o Projeto",
+    "dtCriacao": "20/08",
+    "status": 1
+  }
+]
