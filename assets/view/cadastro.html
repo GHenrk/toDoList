@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List || Login</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/variaveis.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+    <!-- <link rel="stylesheet" href="../css/cadastro.css" /> -->
+  </head>
+  <body>
+    <section class="secaoLogin">
+      <form>
+        <div class="divLogin">
+          <label class="labelLogin" for="name">Nome</label>
+          <input type="text" name="name" id="name" class="elementoInput" />
+          <label for="email" class="labelLogin">Email</label>
+          <input type="text" name="email" id="email" class="elementoInput" />
+          <label class="labelLogin" for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="elementoInput"
+          />
+
+          <div class="secaoBotoes">
+            <button type="button" class="botao__login" id="btnCadastro">
+              Cadastrar
+            </button>
+            <button type="button" class="botao__login" id="btnVoltar">
+              Voltar
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <script src="../js/cadastro.js"></script>
+  </body>
+</html>

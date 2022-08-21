@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="./assets/css/variaveis.css" />
     <link rel="stylesheet" href="./assets/css/login.css" />
+    <link rel="stylesheet" href="./assets/css/loading.css" />
   </head>
   <body>
+    <div class="loading" id="loading">
+      <h3 class="loadingTexto">LOADING...</h3>
+    </div>
     <section class="secaoLogin">
       <form>
         <div class="divLogin">
@@ -27,7 +31,9 @@
               Entrar
             </button>
 
-            <button type="button" class="botao__login">Cadastre-se</button>
+            <button type="button" class="botao__login" id="btnCadastrar">
+              Cadastre-se
+            </button>
           </div>
         </div>
       </form>

@@ -9,7 +9,24 @@ btnLogin.onclick = () => {
   verificaLogin(login.value, password.value);
 };
 
-function verificaLogin(login, password) {
+function mostraLoading(TruOrFalse) {
+  let ativo = TruOrFalse;
+  let secaoLoading = document.getElementById("loading");
+  if (ativo) {
+    secaoLoading.style.display = "block";
+  } else {
+    secaoLoading.style.display = "none";
+  }
+}
+
+const btnCadastro = document.getElementById("btnCadastrar");
+
+btnCadastro.onclick = () => {
+  window.location.assign("./assets/view/cadastro.html");
+};
+
+async function verificaLogin(login, password) {
+  mostraLoading(true);
   let bodyContent = new FormData();
   bodyContent.append("email", `${login}`);
   bodyContent.append("password", `${password}`);
@@ -17,10 +34,13 @@ function verificaLogin(login, password) {
   //   Accept: "*/*",
   //   "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   // };
-  fetch("https://laravel-sanctum-auth.azurewebsites.net/api/v1/auth/login", {
-    method: "POST",
-    body: bodyContent,
-  })
+  await fetch(
+    "https://laravel-sanctum-auth.azurewebsites.net/api/v1/auth/login",
+    {
+      method: "POST",
+      body: bodyContent,
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("SUCESSO!!!");
@@ -29,8 +49,11 @@ function verificaLogin(login, password) {
       console.log("Chave de Segurança Armazenada em memória...");
       abrirPageHome();
     })
-    .catch((error) => {
-      console.log("Não foi possível realizar o login", error);
+    .catch(() => {
+      alert("Não foi possível realizar o login. Tente novamente!!!");
+    })
+    .finally(() => {
+      mostraLoading(false);
     });
 }
 
