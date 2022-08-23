@@ -5,7 +5,6 @@ btnLogin.onclick = () => {
   console.log("Enviando Informações...");
   let login = document.getElementById("login");
   let password = document.getElementById("password");
-  console.log(login.value, password.value);
   verificaLogin(login.value, password.value);
 };
 
@@ -13,7 +12,7 @@ function mostraLoading(TruOrFalse) {
   let ativo = TruOrFalse;
   let secaoLoading = document.getElementById("loading");
   if (ativo) {
-    secaoLoading.style.display = "block";
+    secaoLoading.style.display = "flex";
   } else {
     secaoLoading.style.display = "none";
   }
