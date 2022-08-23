@@ -7,14 +7,14 @@ var listaTotal = [];
 
 function criaElementoLista(item) {
   //cria lista com elementos do JSON;
-  const elementoLista = document.getElementById("listaTarefas");
+  const elementoLista = document.getElementById("listaTarefas");//<ul></ul>
   let elementoLi = document.createElement("li"); //<li></li>
   let elementoTxt = document.createElement("h3"); //<h3></h3>
   elementoLi.className = "itemTarefa";
   elementoTxt.className = "txtTarefa"; //<h3 class="txtTarefa"></h3>
   let textoTarefa = document.createTextNode(`${item.txtTarefa}`);
   elementoTxt.appendChild(textoTarefa); //<h3 class="txtTarefa">TXT TAREFA DO OBJETO</h3>
-  elementoLi.appendChild(elementoTxt); //Adiciono elemento H3 dentro do LI;
+  elementoLi.appendChild(elementoTxt); //Adiciono elemento H3 dentro do LI;<li><h3>texto</h3></li>
   let divBtns = document.createElement("div");
   divBtns.className = "secaoBtns";
   let btnEdit = document.createElement("button"); //<button></button>
@@ -194,8 +194,8 @@ async function criaListaTarefas() {
 const btnCreate = document.getElementById("btnCriar");
 
 btnCreate.onclick = () => {
-  let txt = document.getElementById("inputTarefa").value;
-  console.log(txt);
+  let elementoTxt = document.getElementById("inputTarefa");
+  let txt = elementoTxt.value;
   if (txt.length == 0) {
     alert("Por favor, insira uma tarefa!");
   } else {
@@ -209,11 +209,14 @@ btnCreate.onclick = () => {
       }/${data.getFullYear()}`,
       status: status,
     };
+    
+    
 
     criaElementoLista(itemTarefa);
     criarEdicao();
     criaExlusao();
     criaChecagem();
+    elementoTxt.value = " ";
   }
 };
 
