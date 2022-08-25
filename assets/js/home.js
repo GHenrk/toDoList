@@ -1,9 +1,20 @@
 let token = localStorage.getItem("tokenB");
 let header = {
   Authorization: "Bearer " + token,
+  Accept: "application/json"
 };
 
-var listaTotal = [];
+function mostraLoading(TruOrFalse) {
+  let ativo = TruOrFalse;
+  let secaoLoading = document.getElementById("loading");
+  if (ativo) {
+    secaoLoading.style.display = "flex";
+  } else {
+    secaoLoading.style.display = "none";
+  }
+}
+
+let listaTotal = [];
 
 function criaElementoLista(item) {
   //cria lista com elementos do JSON;
@@ -12,7 +23,7 @@ function criaElementoLista(item) {
   let elementoTxt = document.createElement("h3"); //<h3></h3>
   elementoLi.className = "itemTarefa";
   elementoTxt.className = "txtTarefa"; //<h3 class="txtTarefa"></h3>
-  let textoTarefa = document.createTextNode(`${item.txtTarefa}`);
+  let textoTarefa = document.createTextNode(`${item.name}`);
   elementoTxt.appendChild(textoTarefa); //<h3 class="txtTarefa">TXT TAREFA DO OBJETO</h3>
   elementoLi.appendChild(elementoTxt); //Adiciono elemento H3 dentro do LI;<li><h3>texto</h3></li>
   let divBtns = document.createElement("div");
@@ -41,36 +52,40 @@ function criaElementoLista(item) {
   divBtns.appendChild(elementoCheck);
   elementoLi.appendChild(divBtns);
   elementoLista.appendChild(elementoLi);
-  listaTotal.push(item);
-  // console.log(listaTotal);
 }
 
 const mostraTarefas = (listaElementos) => {
   //Cria lista com todos elementos do Json;
+  const elementoLista = document.getElementById("listaTarefas");
+  elementoLista.innerHTML = " ";
+
   for (let i = 0; i < listaElementos.length; i++) {
     let item = listaElementos[i];
     criaElementoLista(item);
   }
 };
 
+
 async function requisitaDados() {
-  //loading(true)
+  mostraLoading(true);
 
   await fetch("https://laravel-sanctum-auth.azurewebsites.net/api/v1/me", {
     headers: header,
   })
     .then((response) => response.json())
-    .then((data) => {
+    .then(() => {
       console.log("Informações recebidas");
+      atualizaLista();
     })
     .catch((error) => {
       //janelaErro;
       console.log("Deu erro" + error);
       alert("voce não está logado");
       window.location.assign("../../index.html");
+
     })
     .finally(() => {
-      //loading(false)
+      mostraLoading(false);
     });
 }
 
@@ -129,12 +144,17 @@ function criaExlusao() {
       if (btnEditEstd == true) {
         alert("Você precisa terminar sua Edição antes de remover um item!");
       } else {
-        listaTotal.splice(i, 1);
-        let elementoLi = btnClose.parentElement.parentElement;
-        const elementoLista = document.getElementById("listaTarefas");
-        elementoLista.removeChild(elementoLi);
-        criarEdicao();
-        criaChecagem();
+        let idItem = listaTotal[i].id;
+        console.log(listaTotal);
+        console.log(idItem);
+        deletaItem(idItem);
+        //listaTotal.splice(i, 1);
+        //let elementoLi = btnClose.parentElement.parentElement;
+        //const elementoLista = document.getElementById("listaTarefas");
+        //elementoLista.removeChild(elementoLi);
+        //atualizaLista();
+        //criarEdicao();
+        //criaChecagem();
       }
     };
   }
@@ -152,6 +172,8 @@ function criaChecagem() {
   }
 }
 
+
+//BtnSair;
 const btnSair = document.getElementById("btnSair");
 btnSair.onclick = async () => {
   let token = localStorage.getItem("tokenB");
@@ -177,21 +199,66 @@ btnSair.onclick = async () => {
     });
 };
 
-async function criaListaTarefas() {
-  // exibeLoadingLista();
-  await fetch("../json/tarefas.json", { headers: header })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      // listaTotal = data;
-      mostraTarefas(data);
-      criarEdicao();
-      criaExlusao();
-      criaChecagem();
-    });
+
+async function atualizaLista() {
+  //loading lista;
+ await fetch("https://laravel-sanctum-auth.azurewebsites.net/api/v1/tasks", {
+  method: "GET",
+  headers: header,
+ }).then((response) => {
+  if(response.ok) {
+    return response.json();
+  }
+ }).then((data) => {
+    let objetoLista = data.data;
+    listaTotal = objetoLista;
+    mostraTarefas(listaTotal);
+    criarEdicao();
+    criaExlusao();
+    criaChecagem();
+    console.log(listaTotal);
+ }).catch ((error) => {
+  console.log(error);
+ }).finally();
+};
+
+async function deletaItem(id) {
+  let urlItem = `https://laravel-sanctum-auth.azurewebsites.net/api/v1/tasks/${id}`;
+  await fetch(urlItem, {
+    method: "DELETE",
+    headers: header
+  }).then((response) => {if(response.ok){
+    return response.json();
+  }}).then(()=> {
+    atualizaLista();
+  }).catch(()=> {
+    alert('Não foi possível realizar a exlusão!!');
+  })
 }
 
+
 const btnCreate = document.getElementById("btnCriar");
+
+async function enviarTarefa(txt) {
+  let bodyTarefa = new FormData();
+  bodyTarefa.append('name', `${txt}`)
+
+  await fetch("https://laravel-sanctum-auth.azurewebsites.net/api/v1/tasks", {
+    method: "POST",
+    headers: header,
+    body: bodyTarefa
+}).then(
+  (response)=>{if(response.ok){
+    return response.json();
+  }}
+).then(() => {
+  atualizaLista();
+})
+.catch(()=> {
+  alert("Erro na criação da tarefa! Por favor tente novamente!")
+});
+};
+
 
 btnCreate.onclick = () => {
   let elementoTxt = document.getElementById("inputTarefa");
@@ -199,46 +266,15 @@ btnCreate.onclick = () => {
   if (txt.length == 0) {
     alert("Por favor, insira uma tarefa!");
   } else {
-    let data = new Date();
-    let status = "1";
-
-    let itemTarefa = {
-      txtTarefa: `${txt}`,
-      dtCriacao: `${data.getDate()}/${
-        data.getMonth() + 1
-      }/${data.getFullYear()}`,
-      status: status,
-    };
-    
-    
-
-    criaElementoLista(itemTarefa);
-    criarEdicao();
-    criaExlusao();
-    criaChecagem();
+    enviarTarefa(txt);
     elementoTxt.value = " ";
-  }
-};
+    // let novaTarefa = {
+    //   "name": `${txt}`
+    // }
+    // criaElementoLista(novaTarefa);
+    };
+  };
 
-//Teste para gravar info no json;
-// let myHeader = {
-//   Accept: "application/json",
-//   "Content-Type": "application/json",
-// };
-
-// async function enviaListaTarefas(listaNova) {
-//   // exibeLoadingLista();
-//   await fetch("../json/tarefas.json", {
-//     method: "POST",
-//     headers: myHeader,
-//     body: JSON.stringify(listaNova),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       console.log(data);
-//       //criaListaTarefas();
-//     });
-// }
 
 requisitaDados();
-criaListaTarefas();
+//criaListaTarefas();

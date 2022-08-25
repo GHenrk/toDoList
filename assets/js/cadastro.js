@@ -11,7 +11,7 @@ btnCadastrar.onclick = async () => {
   bodyContent.append("name", `${nome.value}`);
   bodyContent.append("email", `${email.value}`);
   bodyContent.append("password", `${password.value}`);
-  bodyContent.append("password_confirmation", `${password.value}`);
+  bodyContent.append("confirm_password", `${password.value}`);
 
   await fetch(
     "https://laravel-sanctum-auth.azurewebsites.net/api/v1/auth/register",
@@ -22,12 +22,13 @@ btnCadastrar.onclick = async () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      // console.log(data);
-      let objetoToken = data.data;
-      localStorage.setItem("tokenB", `${objetoToken.token}`);
-      console.log(objetoToken.token);
-      // console.log("Chave de Segurança Armazenada em memória...");
-      window.location.assign("home.html");
+      console.log(data);
+      
+      // let objetoToken = data.data;
+      // localStorage.setItem("tokenB", `${objetoToken.token}`);
+      // console.log(objetoToken.token);
+      // // console.log("Chave de Segurança Armazenada em memória...");
+      // window.location.assign("home.html");
     })
     .catch((error) => {
       alert("Não foi possível realizar o cadastro, tente novamente mais tarde!!!");
