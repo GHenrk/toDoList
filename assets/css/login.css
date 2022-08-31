@@ -1,5 +1,6 @@
 body {
   background-color: var(--cor-bg-login);
+  overflow: hidden;
 }
 
 .secaoLogin {
@@ -57,4 +58,10 @@ body {
   color: var(--cor-btn);
   background-color: white;
   cursor: pointer;
+}
+
+@media screen and (max-width:480px) {
+ .secaoLogin {
+  width:80vw;
+ } 
 }
