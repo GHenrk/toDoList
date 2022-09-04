@@ -11,7 +11,7 @@ utilizando uma API fornecida pelo Professor, para cadastrar, autenticar usuário
 - Criação, edição e exclusão de Tarefa.
 - Checagem de Tarefa.
 
-## Autores
+## Autor
 
 - [@Ghenrk](https://www.github.com/Ghenrk)
 
